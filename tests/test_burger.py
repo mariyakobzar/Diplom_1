@@ -15,7 +15,6 @@ class TestBurger:
         bun = Bun('black bun', 100)
         burger = Burger()
         burger.set_buns(bun)
-        print(bun.__dict__)
         assert burger.bun == bun
 
     @pytest.mark.parametrize(
@@ -31,7 +30,6 @@ class TestBurger:
     )
     def test_add_ingredient_true(self, type, name, price):
         ingredient = Ingredient(type, name, price)
-        print(ingredient.__dict__)
         burger = Burger()
         burger.add_ingredient(ingredient)
 
@@ -39,8 +37,6 @@ class TestBurger:
 
     def test_remove_ingredient_true(self):
         burger = Burger()
-        #list_of_ingr = database.available_ingredients()
-        #print(list_of_ingr)
         ingredient = [INGREDIENT_TYPE_SAUCE, "hot sauce", 100]
         burger.add_ingredient(ingredient)
         burger.remove_ingredient(0)
@@ -51,13 +47,10 @@ class TestBurger:
         burger = Burger()
         database = Database()
         list_of_ingr = database.available_ingredients()
-        print(list_of_ingr)
         for i in list_of_ingr:
             burger.add_ingredient(i)
-        print(burger.ingredients)
         last_index = len(burger.ingredients)-1
         last_value = burger.ingredients[last_index]
-        print(last_index)
         burger.move_ingredient(last_index, 0)
 
         assert burger.ingredients[0] == last_value
@@ -81,8 +74,9 @@ class TestBurger:
         burger.set_buns(bun)
         burger.add_ingredient(ingredient1)
         burger.add_ingredient(ingredient2)
-        #print(burger.get_receipt()[6])
-        assert 'Price: 1100' in burger.get_receipt()
+        assert '(==== red bun ====)' in burger.get_receipt()
+        assert '= sauce sour cream =' in burger.get_receipt()
+        assert '= filling sausage =' in burger.get_receipt()
 
     def test_get_price_true_mock(self):
         mock_bun = Mock()# создаю мок объекта булки
@@ -115,7 +109,9 @@ class TestBurger:
         mock_bun.get_price.return_value = 100
         mock_ingredient_1.get_price.return_value = 300
         mock_ingredient_2.get_price.return_value = 500
-        assert 'Price: 1000' in burger.get_receipt()
+        assert '(==== red bun ====)' in burger.get_receipt()
+        assert '= sauce sour cream =' in burger.get_receipt()
+        assert '= filling sausage =' in burger.get_receipt()
 
 
 
